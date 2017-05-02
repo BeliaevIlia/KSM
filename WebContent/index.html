@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+		
+		<title>Keep Something More</title>
+ 		<script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+				id="sap-ui-bootstrap"
+				data-sap-ui-libs="sap.m"
+				data-sap-ui-theme="sap_bluecrystal">
+		</script>
+		<!-- only load the mobile lib "sap.m" and the "sap_bluecrystal" theme -->
+		
+		<script>
+				sap.ui.localResources("keep_something_more");
+				
+				var oModel = new sap.ui.model.json.JSONModel();	
+				var sAutorityLink = "http://de0.mg.loc:8000/sap/bc/ui2/start_up";
+				oModel.loadData(sAutorityLink,null,false);		//делаем запрос синхронным
+				
+//				Объявляем путь к локальному хранилищу
+				jQuery.sap.require("jquery.sap.storage");  
+// 				Объявляем необходимые атрибуты
+				var sLogin  = oModel.getProperty("/id");
+				var sUser   = oModel.getProperty("/fullName");
+				var sSystem = oModel.getProperty("/system");
+				var hostname = URI()._parts.hostname;
+				var sOdatalink = "http://de0.mg.loc:8000/sap/opu/odata/sap/ZBIV_KEEP_SOMTHING_MORE_SRV/";
+
+// 				Записываем атрибуты
+				this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+			    this.oStorage.put("ID", sLogin); 
+			    this.oStorage.put("UserName", sUser);
+			    this.oStorage.put("KSMLink", sOdatalink);
+			    
+// 				var app = new sap.m.App({initialPage:"idHome1"});
+// 				var page = sap.ui.view({id:"idHome1", viewName:"keep_something_more.Home", type:sap.ui.core.mvc.ViewType.JS});
+// 				app.addPage(page)
+				
+				sap.ui.getCore().attachInit(function () {
+					new sap.m.Shell({
+// 						app: app
+					}).placeAt("content");
+			});
+		</script>
+
+	</head>
+	<body class="sapUiBody" role="application" id = "content">
+	</body>
+</html>
