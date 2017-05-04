@@ -80,6 +80,7 @@ sap.ui.controller("KSM.controller.Desk", {
 
 	createTilesCollection: function( ){
 		debugger;
+		
 		var tilesCollection = [
 			new sap.m.StandardTile({
 	            icon : "sap-icon://play",

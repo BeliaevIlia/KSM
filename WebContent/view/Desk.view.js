@@ -14,18 +14,20 @@ sap.ui.jsview("KSM.view.Desk", {
 	*/ 
 	createContent : function(oController) {
 		debugger;
-		var TilesCollection = oController.createTilesCollection();
+		var tilesCollection = oController.createTilesCollection( );
+		var tileContainer = new sap.m.TileContainer({
+			id : 'deskTileContatiner',
+			editable : true,
+			allowAdd : true,
+			tiles : tilesCollection,
+			tileAdd : 'handleTileDelete',
+			tileDelete : 'handleTileDelete',
+			tileMove : 'tileMove'
+		});
+		
  		return new sap.m.Page({ 
 			title: "Keep something more",
-			content: new sap.m.TileContainer({
-				id : 'deskTileContatiner',
-				editable : true,
-				allowAdd : true,
-				tiles : TilesCollection,
-				tileAdd : 'handleTileDelete',
-				tileDelete : 'handleTileDelete',
-				tileMove : 'tileMove'
-			})
+			content: tileContainer
 		});
 	}
 

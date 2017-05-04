@@ -2,6 +2,10 @@ jQuery.sap.declare('KSM.Component');
 
 sap.ui.core.UIComponent.extend('KSM.Component', {
 	
+	metadata : {
+		rootView : "KSM.view.Desk"
+	},
+	
 	init : function() {
 // 		Вызываем непереопределёный метод 
 //		Типа SUPER~CONSTUCTOR( );
