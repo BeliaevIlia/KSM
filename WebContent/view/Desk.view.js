@@ -13,9 +13,8 @@ sap.ui.jsview("KSM.view.Desk", {
 	* @memberOf KSM.Desk
 	*/ 
 	createContent : function(oController) {
-		debugger;
 		var tilesCollection = oController.createTilesCollection( );
-		var tileContainer = new sap.m.TileContainer({
+		return new sap.m.TileContainer({
 			id : 'deskTileContatiner',
 			editable : true,
 			allowAdd : true,
@@ -23,11 +22,6 @@ sap.ui.jsview("KSM.view.Desk", {
 			tileAdd : 'handleTileDelete',
 			tileDelete : 'handleTileDelete',
 			tileMove : 'tileMove'
-		});
-		
- 		return new sap.m.Page({ 
-			title: "Keep something more",
-			content: tileContainer
 		});
 	}
 

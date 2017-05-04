@@ -3,7 +3,21 @@ jQuery.sap.declare('KSM.Component');
 sap.ui.core.UIComponent.extend('KSM.Component', {
 	
 	metadata : {
-		rootView : "KSM.view.Desk"
+		rootView : "KSM.view.Desk",
+		dependencies : {
+			libs : [
+				"sap.m"
+			]
+		},
+		config : {
+			sample : {
+				stretch : true,
+				files : [
+					"Desk.view.js",
+					"Desk.controller.js"
+				]
+			}
+		}
 	},
 	
 	init : function() {		
@@ -33,7 +47,9 @@ sap.ui.core.UIComponent.extend('KSM.Component', {
 	createContent : function() {
 		return sap.ui.view({
 			viewName : "KSM.view.Desk",
-			type : sap.ui.core.mvc.ViewType.JS
+			height : "100%",
+			type : sap.ui.core.mvc.ViewType.JS,
+			viewData : {component : this}
 		});
 	}
 });

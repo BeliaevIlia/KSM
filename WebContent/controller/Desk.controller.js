@@ -79,7 +79,24 @@ sap.ui.controller("KSM.controller.Desk", {
 	},
 
 	createTilesCollection: function( ){
-		debugger;
+		jQuery.sap.require("jquery.sap.storage");
+		this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+		var sLink = this.oStorage.get("KSMLink");
+
+		var loCore = sap.ui.getCore();
+		var loModel = new sap.ui.model.odata.ODataModel(sLink, false);
+		loCore.setModel(loModel);
+		
+		var loNoteSet;
+		loModel.read(	
+			"/NOTESet",
+    		null,
+			null,
+			false,
+            function(oData, oResponse){
+				loNoteSet = oData.results; 
+       		}
+		);
 		
 		var tilesCollection = [
 			new sap.m.StandardTile({
@@ -118,84 +135,20 @@ sap.ui.controller("KSM.controller.Desk", {
 	            }
 	        })
 		];
+		for( var i = 0; i < loNoteSet.length; i++ ){
+			var loTile = new sap.m.StandardTile({
+				removable : true, 
+				icon : "sap-icon://timesheet",
+				title : loNoteSet[i].NoteLabel,
+				press : function() {
+	            	this.navigateToTile( );
+            	}
+			});
+			
+			tilesCollection.push( loTile );
+		};
 		
 		return tilesCollection;
-		
-//		return new sap.m.TileContainer({
-//			id : "DESK",
-//			visible : true,
-//			busy : false,
-//			width : "100%", 
-//			height : "100%",
-//			editable : true,
-//			allowAdd : true
-//		});
-//		alert("createTileContainer");
-//		
-////		Объявляем путь к локальному хранилищу
-//		jQuery.sap.require("jquery.sap.storage");
-//		this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-//		
-//		alert("this.oStorage");
-//		
-////		Получаем атрибут "Путь к ODATA"
-//		var sLink = this.oStorage.get("KSMLink");
-//		
-//		alert("sLink");
-//		
-////		Объявляем ODATAChanel для обмена данными с R/3
-//		var loCore = sap.ui.getCore();
-//		var loModel = new sap.ui.model.odata.ODataModel(sLink, false);
-//		loCore.setModel(loModel);
-//		
-//		alert("loCore.setModel");
-//		
-//		var loTileContainer = new sap.m.TileContainer({
-//			id : "TileContainer", // sap.ui.core.ID
-//			busy : false, // boolean
-//			busyIndicatorDelay : 1000, // int
-//			visible : true, // boolean
-//			width : "100%", // sap.ui.core.CSSSize
-//			height : "100%", // sap.ui.core.CSSSize
-//			editable : true, // boolean
-//			allowAdd : false, // boolean
-//			tooltip : undefined, // sap.ui.core.TooltipBase
-//			tiles : [ ] // sap.m.Tile
-//		});
-//		
-//		loModel.read(	"/NOTESet",
-//			    		null,
-//		    			null,
-//		    			false,
-//			            function(oData, oResponse){
-//							loNoteSet = oData.results; 
-//			       		}
-//		);
-//		
-//		for( var i = 0; 1 < loNoteSet.length; i++ ){
-////			var loTile = new sap.m.StandardTile({
-////							busy : false, // boolean
-////							busyIndicatorDelay : 1000, // int
-////							visible : true, // boolean
-////							fieldGroupIds : [], // string[], since 1.31
-////							removable : true, // boolean
-////							title : "AZAZAAZ" // string
-////						});
-//			
-//			var loTile = new sap.m.StandardTile({
-//                title : "Coming from a view ",
-//            })
-//			
-////			loTile.addDependent( new sap.m.Text({ text: loNoteSet[i].note_label }) );
-////			Добавляем данные в Tile 
-////			var loText = new sap.m.Text();
-////			loText.setText( loNoteSet[i].note_label );
-////			loTile.addCustomData(loText);
-//			
-//			loTileContainer.addTile( loTile );
-//		}		
-//		
-//		return loTileContainer;
 	},
 	
 	navigateToTile: function( ){
