@@ -6,14 +6,15 @@ sap.ui.core.UIComponent.extend('KSM.Component', {
 		rootView : "KSM.view.Desk"
 	},
 	
-	init : function() {
-// 		Вызываем непереопределёный метод 
-//		Типа SUPER~CONSTUCTOR( );
-		sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
+	init : function() {		
+		var oModel = new sap.ui.model.json.JSONModel();	
+// 		Делаем будущие запросы синхронными
+		var sAutorityLink = 'http://de0.mg.loc:8000/sap/bc/ui2/start_up';
+		oModel.loadData(sAutorityLink, null, false);
+		this.setModel(oModel);
 		
 // 		В локальном хранилище будем держать некоторые данные
 		jQuery.sap.require('jquery.sap.storage');  
-		var oModel = new sap.ui.model.json.JSONModel();	
 		var sLogin  = oModel.getProperty('/id');	
 		var sUser   = oModel.getProperty('/fullName');
 		var sSystem = oModel.getProperty('/system');
@@ -24,11 +25,9 @@ sap.ui.core.UIComponent.extend('KSM.Component', {
 	    this.oStorage.put('ID', sLogin); 
 	    this.oStorage.put('UserName', sUser);
 	    this.oStorage.put('KSMLink', sOdatalink);
-	    
-// 		Делаем будущие запросы синхронными
-		var sAutorityLink = 'http://de0.mg.loc:8000/sap/bc/ui2/start_up';
-		oModel.loadData(sAutorityLink, null, false);
-		this.setModel(oModel);
+// 		Вызываем непереопределёный метод 
+//		Типа SUPER~CONSTUCTOR( );
+		sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
 	},
 	
 	createContent : function() {
